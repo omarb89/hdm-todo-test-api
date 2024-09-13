@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import DeleteTask from '../UseCase/DeleteTask/DeleteTask';
 import GetAllTasksUseCase from '../UseCase/GetAllTasks/GetAllTasksUseCase';
@@ -27,7 +28,7 @@ export default class TaskController {
     return (await this.useCaseFactory.create(SaveTaskUseCase)).handle(dto);
   }
 
-  @Patch('/tasks/:id')
+  @Put('/tasks/:id')
   async update(@Param('id') id: string, @Body() dto: SaveTaskDto) {
     return (await this.useCaseFactory.create(SaveTaskUseCase)).handle({ id: Number(id), ...dto });
   }
