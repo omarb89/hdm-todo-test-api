@@ -19,14 +19,20 @@ export default class TaskRepository {
   }
 
   async save(
-    data:
-      | Prisma.XOR<Prisma.TaskCreateInput, Prisma.TaskUncheckedCreateInput>
-      | Prisma.XOR<Prisma.TaskUpdateInput, Prisma.TaskUncheckedUpdateInput>,
+    data: Prisma.XOR<Prisma.TaskCreateInput, Prisma.TaskUncheckedCreateInput> &
+          Prisma.XOR<Prisma.TaskUpdateInput, Prisma.TaskUncheckedUpdateInput>
   ) {
-    if (!data.id) {
-      // @todo IMPLEMENT HERE USING PRISMA API
+    if (data.id) {
+      return this.prisma.task.update({
+        where: {
+          id: data.id,
+        },
+        data,
+      });
+    } else {
+      return this.prisma.task.create({
+        data,
+      });
     }
-
-    // @todo IMPLEMENT HERE USING PRISMA API
   }
 }
